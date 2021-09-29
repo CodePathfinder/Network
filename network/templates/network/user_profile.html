@@ -1,0 +1,82 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+<div class="col-lg-12">
+  <div class="row d-flex justify-content-between">
+    <h2>{{ author.username }}'s profile</h2>
+    
+    {% if user.is_authenticated and user.id != author.id%}
+      
+      <!-- control "Follow" flag; button is shown for authenticated user other then posts author-->
+      <form action="{% url 'follow_control' author.id %}" method="post" class="pt-2">
+        {% csrf_token %}
+        <input type="hidden" name="author_id" value="{{ author.id }}">
+          {% if is_follower %}
+            <button class="btn btn-outline-danger">
+              Unfollow <i class="fas fa-eye-slash"></i>
+            </button>
+          {% else %}
+            <button class="btn btn-outline-primary">
+              Follow <i class="fas fa-eye"></i>
+            </button>
+          {% endif %}
+      </form>  
+    
+    {% endif %}
+  </div>
+  <!-- /.row d-flex justify-content-between-->
+
+  <div class="row">
+
+    followers <span class="badge badge-pill badge-primary mb-2 ml-1">{{ followers_count }}</span> &emsp; 
+    follows <span class="badge badge-pill badge-primary mb-2 ml-1">{{ follow_count }}</span>
+  </div>
+  <!-- /.row d-flex justify-content-between-->
+
+  <!-- generate form for new post -->
+  {% if user.is_authenticated and user.id == author.id%}
+    <div id="form-view">
+      <div class="row card my-1">
+        <div class="card-outline-secondary">
+          <div class="mx-3">
+            <form action="{% url 'user_profile' user.id %}" method="post" class="mt-3" name="content">
+                {% csrf_token %}
+                {{ post_form.as_p }}
+                <input type="submit" value="Post" class="btn btn-primary mb-3">
+            </form>
+          </div>
+        </div>
+        <!-- /.card-outline-secondary -->
+      </div>
+      <!-- /.row card my-1 -->
+    </div>
+    <!-- /#form-view -->
+  {% endif %}
+
+  <div class="row card my-1">
+    <div class="card-outline-secondary">
+      
+      <!--==================== Show Posts Block ====================-->
+
+      {% include 'network/inc/showposts.html' %}
+
+      <!--================== END Show Posts Block ====================-->
+
+    </div>
+    <!-- /.card-outline-secondary -->
+  </div>
+  <!-- /.row card my-1" -->
+</div>
+<!-- /.col-lg-12 -->
+
+{% include 'network/inc/pagination.html' %}
+
+{% endblock %}
+
+{% block script %}
+  
+<script src="{% static 'network/net.js' %}"></script>
+
+{% endblock %}

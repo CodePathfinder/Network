@@ -1,0 +1,52 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+<h2>All Posts</h2>
+
+<div class="col-lg-12">
+  {% if user.is_authenticated %}
+    <div id="form-view">
+      <div class="row card my-1">
+        <div class="card-outline-secondary">
+          <div class="mx-3">
+            <form action="{% url 'index' %}" method="post" class="mt-3" name="content">
+                {% csrf_token %}
+                {{ post_form.as_p }}
+                <input type="submit" value="Post" class="btn btn-primary mb-3">
+            </form>
+          </div>
+        </div>
+        <!-- /.card-outline-secondary -->
+      </div>
+      <!-- /.row card my-1 -->
+    </div>
+    <!-- /#form-view -->
+  {% endif %}
+
+  <div class="row card my-1">
+    <div class="card-outline-secondary">
+      
+      <!--==================== Show Posts Block ====================-->
+
+      {% include 'network/inc/showposts.html' %}
+
+      <!--================== END Show Posts Block ====================-->
+
+    </div>
+    <!-- /.card-outline-secondary -->
+  </div>
+  <!-- /.row card my-1" -->
+</div>
+<!-- /.col-lg-12 -->
+
+{% include 'network/inc/pagination.html' %}
+
+{% endblock %}
+
+{% block script %}
+  
+<script src="{% static 'network/net.js' %}"></script>
+
+{% endblock %}

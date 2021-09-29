@@ -1,0 +1,19 @@
+
+#form-view {
+    display: block;
+}
+
+.post-update-form {
+    display: none;
+}
+
+/* Style buttons */
+.heart-bttn {
+    cursor: pointer; /* Mouse pointer on hover */
+}
+
+/* Darker background on mouse-over */
+.heart-bttn:hover {
+    background-color: rgb(250, 250, 250);
+}
+

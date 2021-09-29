@@ -1,0 +1,56 @@
+{% for post in page_object %}
+
+<div class="mx-3 my-2">
+    <h5 class="my-3">
+    <a href="{% url 'user_profile' post.author.id %}">{{ post.author.username }}</a>
+    </h5>
+    
+    <!-- Section show post content -->
+    <div class="post-content" id="post{{ post.id }}_content">
+    
+    {% if user.is_authenticated and post.author.id == user.id %}
+
+    <button class="edit-bttn btn btn-sm btn-outline-primary" data-post="post{{ post.id }}">Edit</button>
+
+    {% endif %}
+
+    <div id="updated_content_post{{ post.id }}">
+        {{ post.content}}
+    </div>
+
+    </div>
+    <!-- /.post-content -->
+    
+    {% if user.is_authenticated and post.author.id == user.id %}
+
+    <!-- Section post update form -->
+    <div class="post-update-form" id="post{{ post.id }}">
+
+    <form id="update_post{{ post.id }}">
+        <textarea class="form-control" id="updated_post{{ post.id }}" rows=1>{{ post.content}}</textarea>
+        <input type="submit" value="Update" class="btn btn-sm btn-outline-primary mt-2">
+    </form>
+
+    </div>
+    <!-- /.post-update-form -->
+    
+    {% endif %}
+    
+    <div class="text-muted">
+    {{ post.created_at}}
+    <br>
+
+    <button class="heart-bttn btn" data-like="like{{ post.id }}">
+        <i class="fas fa-heart text-danger"></i>
+    </button>
+    
+    <span id="count_like{{ post.id }}">{{ post.likes_count }}</span>
+    <br>
+    comment
+    </div>
+    <!-- /.text-muted" -->
+    <hr>
+</div>
+<!-- /.mx-3 my-2 -->
+
+{% endfor %}
