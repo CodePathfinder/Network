@@ -192,7 +192,7 @@ def register(request):
 @csrf_exempt
 def post_update(request, post_id):
 
-    if request.method == "POST":
+    if request.method == "PUT":
         
         try:
             post = Posts.objects.get(id=post_id)
@@ -210,7 +210,7 @@ def post_update(request, post_id):
             
             return JsonResponse({"content": post.content}, status=200)
     else:
-        return JsonResponse({"error": "POST request required"}, status=400)
+        return JsonResponse({"error": "PUT request required"}, status=400)
 
 
 @login_required(login_url='login')

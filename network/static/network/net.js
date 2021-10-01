@@ -2,26 +2,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.querySelectorAll('.edit-bttn').forEach(button => {
     button.onclick = function() {
-      console.log("dataset.post", this.dataset.post);
-      const post = this.dataset.post;
-      history.pushState({section: post}, "", post);
-      updatePost(this.dataset.post);
+        updatePost(this.dataset.post);
     }
   });
 
   document.querySelectorAll('.heart-bttn').forEach(button => {
     button.onclick = function() {
-      const like = this.dataset.like;
-      history.pushState({section: like}, "", like);
-      updateLikes(like);
+      updateLikes(this.dataset.like);
     }
   });
 });
-
-window.onpopstate = function(event) {
-  console.log(event.state.post);
-  updatePost(event.state.post);
-}
 
 function updateLikes(like) {
       
@@ -55,13 +45,13 @@ function updatePost(post) {
   document.querySelector(`#${post}`).style.display = 'block';
   document.querySelector(`#${post}_content`).style.display = 'none';
 
-  // POST request to /post_update route
+  // PUT request to /post_update route
   document.querySelector(`#update_${post}`).onsubmit = () => {
     
     let post_id = post.slice(4);
     let url = `http://127.0.0.1:8000/post_update/${post_id}`
     fetch(url, {
-    method: 'POST',
+    method: 'PUT',
     body: JSON.stringify({
       updated_post: document.querySelector(`#updated_${post}`).value
     })
